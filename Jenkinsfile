@@ -54,7 +54,8 @@ pipeline {
 
                 helm upgrade --install sample-app ./helm/sample-app \
                   --set image.repository=$ECR_REPO \
-                  --set image.tag=$IMAGE_TAG
+                  --set image.tag=$IMAGE_TAG \
+                  --force
                 '''
             }
         }
