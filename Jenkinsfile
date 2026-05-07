@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         AWS_REGION = "eu-north-1"
-        ECR_REPO = "188776114860.dkr.ecr.eu-north-1.amazonaws.com/sample-app"
+        ECR_REPO = "188776114860.dkr.ecr.eu-north-1.amazonaws.com/namespace/appcode-ecr"
         IMAGE_TAG = "${BUILD_NUMBER}"   
         CLUSTER_NAME = "my-eks-cluster"
 
