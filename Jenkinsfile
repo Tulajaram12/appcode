@@ -18,7 +18,7 @@ pipeline {
                 cleanWs()
             }
         }
-        
+
         stage('Checkout App Code') {
             steps {
                 dir('app') {
@@ -47,6 +47,7 @@ pipeline {
             steps {
                 sh '''
                 aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPO
+
                 docker tag sample-app:latest $ECR_REPO:$IMAGE_TAG
                 docker push $ECR_REPO:$IMAGE_TAG
                 '''
@@ -62,6 +63,19 @@ pipeline {
                   --set image.repository=$ECR_REPO \
                   --set image.tag=$IMAGE_TAG \
                   --force
+                '''
+            }
+        }
+
+        stage('Cleanup Docker Images (Local only)') {
+            steps {
+                sh '''
+                echo "Cleaning up Docker images from Jenkins agent..."
+
+                docker rmi sample-app:latest || true
+                docker rmi $ECR_REPO:$IMAGE_TAG || true
+
+                echo "Docker cleanup completed"
                 '''
             }
         }
