@@ -4,7 +4,7 @@ pipeline {
     environment {
         AWS_REGION = "eu-north-1"
         ECR_REPO = "188776114860.dkr.ecr.eu-north-1.amazonaws.com/namespace/appcode-ecr"
-        IMAGE_TAG = "${BUILD_NUMBER}"   
+        IMAGE_TAG = "v${BUILD_NUMBER}"   
         CLUSTER_NAME = "my-eks-cluster"
 
         APP_REPO = "https://github.com/Tulajaram12/appcode.git"
@@ -13,6 +13,12 @@ pipeline {
 
     stages {
 
+        stage('Clean Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+        
         stage('Checkout App Code') {
             steps {
                 dir('app') {
